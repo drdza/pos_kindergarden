@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or "POS Flask" }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header>
+    <h1>{{ cfg.name if cfg else "POS Flask" }}</h1>
+    <nav>
+      <a href="{{ url_for('new_sale') }}">Nueva Venta</a>
+      <a href="{{ url_for('catalog') }}">Catálogo</a>
+      <a href="{{ url_for('config') }}">Configuración</a>
+    </nav>
+  </header>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for category, message in messages %}
+            <li class="flash {{ category }}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <small>Hecho con Flask + SQLite</small>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Ticket {{ header.folio }}</h2>
+<section class="ticket">
+  <div class="center bold">{{ cfg.name }}</div>
+  <div class="center small">{{ cfg.address }}</div>
+  <div class="center small">RFC: {{ cfg.rfc }} Tel: {{ cfg.phone }}</div>
+  <hr>
+  <div>Fecha/Hora: {{ header.created_at }}</div>
+  <div>Cliente: {{ header.customer }}</div>
+  <div>Vendedor: {{ header.seller }}</div>
+  <hr>
+  <table>
+    <thead><tr><th>Descripción</th><th class="right">Cant</th><th class="right">P.Unit</th><th class="right">Importe</th></tr></thead>
+    <tbody>
+    {% for it in items %}
+      <tr>
+        <td>{{ it.description }}</td>
+        <td class="right">{{ '%.2f'|format(it.qty) }}</td>
+        <td class="right">${{ '%.2f'|format(it.unit_price) }}</td>
+        <td class="right">${{ '%.2f'|format(it.qty*it.unit_price) }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <hr>
+  <table>
+    <tr><td class="right">Subtotal:</td><td class="right">${{ '%.2f'|format(subtotal) }}</td></tr>
+    <tr><td class="right">IVA:</td><td class="right">${{ '%.2f'|format(tax) }}</td></tr>
+    <tr><td class="right bold">TOTAL:</td><td class="right bold">${{ '%.2f'|format(total) }}</td></tr>
+  </table>
+  <div class="center small">{{ cfg.thank_you }}</div>
+</section>
+
+<h3>Impresión directa ESC/POS</h3>
+<form method="post" action="{{ url_for('ticket_print', folio=header.folio) }}" class="grid">
+  <label>Conexión
+    <select name="conn_type">
+      <option value="network">network (IP:9100)</option>
+      <option value="usb">usb</option>
+      <option value="serial">serial</option>
+    </select>
+  </label>
+  <label>IP <input name="host" value="192.168.1.50"></label>
+  <label>Puerto <input name="port" type="number" value="9100"></label>
+  <label>Papel (mm)
+    <select name="paper">
+      <option value="58">58</option>
+      <option value="80">80</option>
+    </select>
+  </label>
+  <label>USB Vendor <input name="usb_vendor" value="0x04b8"></label>
+  <label>USB Product <input name="usb_product" value="0x0202"></label>
+  <label>Serie Dev <input name="serial_dev" value="/dev/ttyUSB0"></label>
+  <label>Baudios <input name="serial_baud" type="number" value="19200"></label>
+  <button type="submit">Imprimir directo</button>
+</form>
+
+<script>
+const form = document.querySelector('form[action$="/print"]');
+form && form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const res = await fetch(form.action, { method: 'POST', body: fd });
+  const data = await res.json();
+  alert((data.ok ? "✅ " : "❌ ") + data.msg);
+});
+</script>
+{% endblock %}

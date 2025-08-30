@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Configuración</h2>
+<form method="post">
+  <label>Nombre:<input name="name" value="{{ cfg.name }}"></label>
+  <label>RFC:<input name="rfc" value="{{ cfg.rfc }}"></label>
+  <label>Dirección:<textarea name="address">{{ cfg.address }}</textarea></label>
+  <label>Teléfono:<input name="phone" value="{{ cfg.phone }}"></label>
+  <label>Mensaje de agradecimiento:<input name="thank_you" value="{{ cfg.thank_you }}"></label>
+  <label>IVA (0-1):<input name="tax_rate" type="number" step="0.01" min="0" max="1" value="{{ '%.2f'|format(cfg.tax_rate) }}"></label>
+  <button type="submit">Guardar</button>
+</form>
+{% endblock %}
