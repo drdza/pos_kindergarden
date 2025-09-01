@@ -1,2 +1,13 @@
-.xlsx
-.venv
+# Archivos de datos
+*.xlsx
+*.xls
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# También recomiendo agregar
+node_modules/
+.DS_Store
+*.log
