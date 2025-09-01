@@ -2,7 +2,7 @@
 INSERT OR IGNORE INTO categories(name) VALUES ('Comedor'), ('Colegiatura'), ('Uniformes'), ('Material'), ('Servicio escolar');
 
 -- Vendedores
-INSERT OR IGNORE INTO sellers(employee_code, first_name, second_name, job_tittle)
+INSERT OR IGNORE INTO sellers(employee_code, first_name, second_name, job_title)
 VALUES ('EMP-0001', 'Caja', 'Mostrador', 'Cajero');
 
 --  Catálogos
