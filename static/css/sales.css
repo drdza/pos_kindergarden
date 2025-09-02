@@ -1,0 +1,303 @@
+/* static/css/sales.css */
+table {
+    width: 100%;
+    border-collapse: collapse;    
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    
+}
+
+.right {
+    text-align: right;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+.edit {
+    background: #74abd7;
+    border: 1px solid #ddd;
+}
+
+table.fixed {
+    table-layout: fixed;
+    width: 100%;
+}
+
+td input {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: system-ui;
+}
+
+input {    
+    border: 1px solid #aaa;    
+    border-radius: 4px;
+}
+
+input[readonly] {
+    background-color: #f5f5f5;    
+    color: #555;
+    cursor: not-allowed;
+}
+
+tbody tr:focus-within {
+    background: #f7fafc;
+}
+
+td button {
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+#search-results {
+    max-height: 240px;
+    overflow: auto;
+}
+
+.enrollment-option {
+    font-family: 'Courier New', monospace;
+}
+
+.enrollment-id {
+    color: #666;
+    font-weight: bold;
+    background-color: #f5f5f5;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+.student-name {
+    color: #333;
+}
+
+/* Mejoras de formulario */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-select, .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Estilos para Select2 */
+.select2-results {
+    font-size: 12px;
+}
+
+.select2-container--default .select2-selection--single {
+    line-height: 25px;
+    height: 42px;
+    padding: 1px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 25px !important; 
+    color: #333;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 6px;
+}
+
+.select2-results__option--highlighted[aria-selected] {    
+    background-color: #2563eb !important;
+}
+
+
+/* Contenedor de búsqueda */
+.search-container {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+    width: 94%;
+    padding: 12px;
+    padding-right: 40px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    font-size: 12px;
+    height: 2px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Indicador de carga */
+.search-indicator {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  display: none;
+}
+
+.search-indicator.htmx-request {
+  display: block;
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translateY(-50%) rotate(0deg); }
+  100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+/* Resultados de búsqueda */
+.search-results-card {
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0;
+}
+
+.search-result-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.search-result-item:hover {
+  background-color: #f8fafc;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-sku {
+  font-weight: bold;
+  color: #2563eb;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+.search-result-desc {
+  color: #374151;
+  margin-top: 4px;
+}
+
+.search-result-price {
+  color: #059669;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* Estados vacíos */
+.search-empty {
+  padding: 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.search-initial {
+  padding: 20px;
+  text-align: center;
+  color: #9ca3af;
+}
+
+/* Campos hidden - mantener ocultos pero funcionales */
+input[type="hidden"] {
+    display: none;
+}
+
+/* Mejoras para selects con data attributes */
+.select2-container--default .select2-results__option[data-name]::after {
+    content: attr(data-name);
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* Estilos para la búsqueda de productos */
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px;
+    padding-right: 40px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-indicator {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    display: none;
+}
+
+.search-indicator.htmx-request {
+    display: block;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+}
+
+.search-results-card {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0;
+}

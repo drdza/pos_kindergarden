@@ -1,0 +1,77 @@
+/* static/css/base.css */
+body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    margin: 0;
+    background: #f6f7f9;
+}
+
+header {
+    background: #111827;
+    color: #fff;
+    padding: 10px 16px;
+}
+
+main {
+    padding: 16px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.row {
+    padding: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.row > * {
+    flex: 1;
+}
+
+.btn {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+.btn.secondary {
+    background: #6b7280;
+}
+
+/* Estilos para impresión */
+@media print {
+    body {
+        background: #fff;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+    
+    .ticket {
+        width: 58mm;
+        font-size: 12px;
+    }
+    
+    .ticket h1 {
+        font-size: 16px;
+        margin: 6px 0;
+    }
+    
+    .ticket table th, 
+    .ticket table td {
+        padding: 4px;
+    }
+}

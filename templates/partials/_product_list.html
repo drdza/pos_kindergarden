@@ -1,0 +1,11 @@
+<ul style="list-style:none; padding:0; margin:0;">
+  {% for p in products %}
+  <li data-sku="{{ p.sku }}" data-payload='{{ {"sku":p.sku,"description":p.description,"price":p.price,"tax_rate":p.tax_rate}|tojson }}'
+      style="padding:8px; border-bottom:1px solid #eee; cursor:pointer">
+    <div><strong>{{ p.sku }}</strong> — {{ p.description }}</div>
+    <small>${{ '%.2f'|format(p.price) }} &middot; IVA {{ '%.0f'|format(p.tax_rate*100) }}%</small>
+  </li>
+  {% else %}
+  <li style="padding:8px; color:#666;">Sin resultados…</li>
+  {% endfor %}
+</ul>

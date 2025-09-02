@@ -1,34 +1,37 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title or "POS Flask" }}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta charset="utf-8"/>
+  <title>{% block title %}POS{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  
+  <!-- CSS -->
+  <link href="{{ url_for('static', filename='css/base.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='css/sales.css') }}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+  
+  <!-- HTMX -->
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  
+  {% block head %}{% endblock %}
 </head>
 <body>
-  <header>
-    <h1>{{ cfg.name if cfg else "POS Flask" }}</h1>
-    <nav>
-      <a href="{{ url_for('new_sale') }}">Nueva Venta</a>
-      <a href="{{ url_for('catalog') }}">Catálogo</a>
-      <a href="{{ url_for('config') }}">Configuración</a>
-    </nav>
+  <header class="no-print">
+    <strong>POS Escolar</strong>
   </header>
+  
   <main>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul class="flashes">
-          {% for category, message in messages %}
-            <li class="flash {{ category }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
     {% block content %}{% endblock %}
   </main>
-  <footer>
-    <small>Hecho con Flask + SQLite</small>
-  </footer>
+
+  <!-- JavaScript al final del body -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/es.min.js"></script>
+  
+  <!-- Scripts propios -->
+  <script src="{{ url_for('static', filename='js/sales.js') }}"></script>
+  
+  {% block scripts %}{% endblock %}
 </body>
 </html>
