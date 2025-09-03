@@ -1,14 +1,14 @@
-#📄 Cotización - Sistema de Gestión de Ventas para Jardín de Niños
+# 📄 Cotización - Sistema de Gestión de Ventas para Jardín de Niños
 
-##📊 Resumen de Servicios
+## 📊 Resumen de Servicios
 
-###INVERSIÓN NORMAL: $9,000 MXN
+### INVERSIÓN NORMAL: $9,000 MXN
 
-###INVERSIÓN ESPECIAL: $7,500 MXN 🎯 (Precio para amigo)
+### INVERSIÓN ESPECIAL: $7,500 MXN 🎯 (Precio para amigo)
 
 ---
 
-###🧾 DESGLOSE POR CONCEPTOS
+### 🧾 DESGLOSE POR CONCEPTOS
 
 CONCEPTO DESCRIPCIÓN COSTO NORMAL COSTO AMIGO
 Análisis y Planeación Definición de requerimientos y diseño de arquitectura $1,750 MXN $1,500 MXN
@@ -20,7 +20,7 @@ TOTAL Sistema completo y funcional $9,000 MXN $7,500 MXN
 
 ---
 
-###🎯 CARACTERÍSTICAS INCLUIDAS
+### 🎯 CARACTERÍSTICAS INCLUIDAS
 
 ✅ Módulo de Ventas
 
@@ -48,7 +48,7 @@ TOTAL Sistema completo y funcional $9,000 MXN $7,500 MXN
 
 ---
 
-###📅 ENTREGABLES
+### 📅 ENTREGABLES
 
 · 🔧 Código fuente completo con documentación
 · 🖥️ Sistema instalado y configurado en equipo local
@@ -58,7 +58,7 @@ TOTAL Sistema completo y funcional $9,000 MXN $7,500 MXN
 
 ---
 
-###💳 FORMA DE PAGO
+### 💳 FORMA DE PAGO
 
 Precio especial para amigo: $7,500 MXN
 
@@ -68,7 +68,7 @@ Precio especial para amigo: $7,500 MXN
 
 ---
 
-###🤝 CONSIDERACIONES ESPECIALES
+### 🤝 CONSIDERACIONES ESPECIALES
 
 Este precio incluye:
 
@@ -79,7 +79,7 @@ Este precio incluye:
 
 ---
 
-###📞 CONTACTO
+### 📞 CONTACTO
 
 Desarrollador: Daniel Rodríguez
 Especialidad: Sistemas web personalizados
