@@ -2,9 +2,9 @@
 
 ## 📊 Resumen de Servicios
 
-### INVERSIÓN NORMAL: $9,000 MXN
+### INVERSIÓN NORMAL: $16,000 MXN
 
-### INVERSIÓN ESPECIAL: $7,500 MXN 🎯 (Precio para amigo)
+### INVERSIÓN ESPECIAL: $8,500 MXN 🎯 (Precio Especial)
 
 ---
 
