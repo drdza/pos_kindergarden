@@ -1,18 +1,51 @@
 {% extends "base.html" %}
 {% block title %}Ticket {{ sale.folio }}{% endblock %}
+
 {% block content %}
-<div class="ticket">
-  <h1 style="text-align:center;">{{ sale.folio }}</h1>
-  <div>Fecha: {{ sale.created_at }}</div>
-  <div>Alumno: {{ sale.customer }}</div>
-  <div>Vendedor: {{ sale.seller }}</div>
-  <hr/>
-  <table>
-    <thead><tr><th>Desc</th><th class="right">Cant</th><th class="right">P.Unit</th><th class="right">Impt</th></tr></thead>
+
+<div class="receipt">
+  <div class="brand">
+    <div class="logo"></div>
+    <h2>Ticket de Venta</h2>
+  </div>
+
+  <div class="folio-row">
+    <div class="folio">Folio: {{ sale.folio }}</div>
+    {% set status = (sale.payment_status or 'UNPAID')|lower %}
+    <span class="badge {{ 'paid' if status in ['paid','pagado','completo'] else ('partial' if status in ['partial','parcial'] else 'unpaid') }}">
+      {{ sale.payment_status }}
+    </span>
+  </div>
+
+  <div class="meta">
+    <div><b>Fecha</b></div>
+    <div class="right">{{ sale.created_at }}</div>
+
+    <div><b>Alumno</b></div>
+    <div class="right">{{ sale.customer }}</div>
+
+    <div><b>Vendedor</b></div>
+    <div class="right">{{ sale.seller }}</div>
+  </div>
+
+  <table class="receipt-table">
+    <thead>
+      <tr>
+        <th>Descripción</th>
+        <th class="right">P.Unit</th>
+        <th class="right">Cant</th>
+        <th class="right">Importe</th>
+      </tr>
+    </thead>
     <tbody>
       {% for it in items %}
       <tr>
-        <td>{{ it.description_snapshot }}</td>
+        <td class="desc">
+          {{ it.description_snapshot }}
+          {% if it.tax_rate and it.tax_rate|float > 0 %}
+            <div class="muted" style="font-size:11px;">IVA {{ (it.tax_rate|float * 100)|round(0) }}%</div>
+          {% endif %}
+        </td>
         <td class="right">{{ '%.2f'|format(it.qty) }}</td>
         <td class="right">{{ '%.2f'|format(it.unit_price) }}</td>
         <td class="right">{{ '%.2f'|format(it.line_total) }}</td>
@@ -20,16 +53,43 @@
       {% endfor %}
     </tbody>
   </table>
-  <hr/>
-  <div class="row"><div>Subtotal</div><div class="right">{{ '%.2f'|format(sale.subtotal) }}</div></div>
-  <div class="row"><div>IVA</div><div class="right">{{ '%.2f'|format(sale.tax_total) }}</div></div>
-  <div class="row"><div><strong>Total</strong></div><div class="right"><strong>{{ '%.2f'|format(sale.total) }}</strong></div></div>
-  <div class="row"><div>Pagos</div><div class="right">{{ '%.2f'|format(pays|sum(attribute='amount')) }}</div></div>
-  <div class="row"><div>Estado</div><div class="right">{{ sale.payment_status }}</div></div>
-  <p style="text-align:center; margin-top:10px;">¡Gracias por su compra!</p>
+
+  <div class="totals">
+    <div class="row">
+      <div>Subtotal</div>
+      <div class="right">{{ '%.2f'|format(sale.subtotal) }}</div>
+    </div>
+    <div class="row">
+      <div>IVA</div>
+      <div class="right">{{ '%.2f'|format(sale.tax_total) }}</div>
+    </div>
+    <div class="row grand">
+      <div>Total</div>
+      <div class="right">{{ '%.2f'|format(sale.total) }}</div>
+    </div>
+    <div class="row"><div>Pagos</div><div class="right">{{ '%.2f'|format(pays|sum(attribute='amount')) }}</div></div>
+
+    {# NUEVO: si hay pago en efectivo con tendered/change, muéstralo #}
+    {% set cash = (pays | selectattr('method', 'in', ['CASH','EFECTIVO']) | list) %}
+    {% if cash and (cash|length > 0) %}
+      {% set last_cash = cash[-1] %}
+      {% if last_cash.tendered %}
+        <div class="row"><div>Pagó con</div><div class="right">{{ '%.2f'|format(last_cash.tendered) }}</div></div>
+      {% endif %}
+      {% if last_cash.change is not none %}
+        <div class="row"><div>Cambio</div><div class="right">{{ '%.2f'|format(last_cash.change) }}</div></div>
+      {% endif %}
+    {% endif %}
+    
+  </div>
+
+  <div class="footer">
+    ¡Gracias por su compra!<br/>
+    Conserve este ticket como comprobante.
+  </div>
 </div>
 
-<div class="no-print" style="margin-top:12px;">
+<div class="actions no-print">
   <button class="btn" onclick="window.print()">Imprimir</button>
   <a class="btn secondary" href="{{ url_for('new_sale') }}">Nueva venta</a>
 </div>

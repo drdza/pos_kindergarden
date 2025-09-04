@@ -8,40 +8,40 @@
   <h2>Registrar Venta</h2>
   <form method="post" action="{{ url_for('create_sale') }}" id="sale-form">
     
-    <div class="row">
-      
-      <div class="form-group">
-        <label class="form-label">Alumno</label>
-        <select name="customer_id" id="customer-select" class="form-select select2-busqueda">
-          <option value="">-- Selecciona Alumno --</option>
-          {% for c in customers %}
-          <option value="{{ c.id }}" data-name="{{ c.name }}" data-enrollment="{{ c.enrollment }}">
-            {{ "%05d"|format(c.enrollment|int) }} - {{ c.name }}
-          </option>
-          {% endfor %}
-        </select>
-        <input type="hidden" name="customer_name" id="customer-name">
-        <input type="hidden" name="customer_enrollment" id="customer-enrollment">
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Vendedor</label>
-        <select name="seller_id" id="seller-select" class="form-select select2-busqueda">
-          <option value="">-- Selecciona Vendedor --</option>
-          {% for s in sellers %}
-          <option value="{{ s.id }}" data-name="{{ s.first_name }} {{ s.second_name }}">
-            {{ s.first_name }} {{ s.second_name }}
-          </option>
-          {% endfor %}
-        </select>
-        <input type="hidden" name="seller_name" id="seller-name">
-      </div>
-      
-    </div>
-
     <div class="card">
+      <div class="row">      
+          <div class="form-group">
+            <label class="form-label" for="customer-select">Alumno</label>
+            <select name="customer_id" id="customer-select" class="form-select select2-busqueda">
+              <option value="">-- Selecciona Alumno --</option>
+              {% for c in customers %}
+              <option value="{{ c.id }}" 
+                      data-name="{{ c.name }}" 
+                      data-enrollment="{{ c.enrollment }}">
+                {{ "%05d"|format(c.enrollment|int) }} - {{ c.name }}
+              </option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="customer_name" id="customer-name">
+            <input type="hidden" name="customer_enrollment" id="customer-enrollment">
+          </div>
+        
+          <div class="form-group">
+            <label class="form-label" for="seller-select">Vendedor</label>
+            <select name="seller_id" id="seller-select" class="form-select select2-busqueda">
+              <option value="">-- Selecciona Vendedor --</option>
+              {% for s in sellers %}
+              <option value="{{ s.id }}" data-name="{{ s.first_name }} {{ s.second_name }}">
+                {{ s.first_name }} {{ s.second_name }}
+              </option>
+              {% endfor %}
+            </select>
+            <input type="hidden" name="seller_name" id="seller-name">
+          </div>      
+      </div>    
+
       <div class="form-group">
-        <label class="form-label">Buscar Producto</label>
+        <label class="form-label" for="product-search">Buscar Producto</label>
         <div class="search-container">
           <input type="text" 
                 id="product-search" 
@@ -80,31 +80,46 @@
       </table>
     </div>
 
-    <div class="row">
-      <div class="card" style="flex:1">
-        <h3>Pago</h3>
-        <div class="row">
-          <select name="payment_method">
-            <option value="cash">Efectivo</option>
-            <option value="card">Tarjeta</option>
-            <option value="transfer">Transferencia</option>
+    <div class="card" style="flex:1">
+      <h3>Pago</h3>
+    
+      <div class="row">
+        <div class="form-group" style="min-width: 180px;">
+          <label class="form-label" for="payment-method">Método</label>
+          <select id="payment-method" name="payment_method" class="form-select">
+            <option value="CASH">Efectivo</option>
+            <option value="CARD">Tarjeta</option>
+            <option value="TRANSFER">Transferencia</option>
           </select>
-          <input type="number" step="0.01" name="payment_amount" placeholder="Monto recibido">
         </div>
-      </div>
-      <div class="card" style="flex:1">
-        <h3>Totales</h3>
-        <div class="row">
-          <div>Subtotal</div><div class="right" id="t-subtotal">0.00</div>
+    
+        <div class="form-group" style="min-width: 160px;">
+          <label class="form-label" for="payment-amount">Monto del pago</label>
+          <input id="payment-amount" class="right" type="number" step="0.01"
+                 name="payment_amount" placeholder="Monto aplicado">
         </div>
-        <div class="row">
-          <div>IVA</div><div class="right" id="t-tax">0.00</div>
-        </div>
-        <div class="row">
-          <div><strong>Total</strong></div><div class="right" id="t-total"><strong>0.00</strong></div>
+    
+        <!-- NUEVO: lo que el cliente entrega (para calcular cambio) -->
+        <div class="form-group" style="min-width: 160px;">
+          <label class="form-label" for="payment-tendered">Pagó con</label>
+          <input id="payment-tendered" class="right" type="number" step="0.01"
+                 name="payment_tendered" placeholder="Efectivo recibido">
         </div>
       </div>
     </div>
+    
+    <!-- En la tarjeta Totales puedes opcionalmente mostrar el cambio -->
+    <div class="card" style="flex:1">
+      <h3>Totales</h3>
+      <div class="row"><div>Subtotal</div><div class="right" id="t-subtotal">0.00</div></div>
+      <div class="row"><div>IVA</div><div class="right" id="t-tax">0.00</div></div>
+      <div class="row"><div><strong>Total</strong></div><div class="right" id="t-total"><strong>0.00</strong></div></div>
+      <!-- NUEVO: vista previa del cambio (solo visual) -->
+      <div class="row" id="row-change" style="display:none;">
+        <div>Cambio</div><div class="right" id="t-change">0.00</div>
+      </div>
+    </div>
+    
 
     <div class="row">
       <button class="btn">Guardar e imprimir</button>

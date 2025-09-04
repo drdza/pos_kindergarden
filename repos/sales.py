@@ -39,9 +39,16 @@ def create_sale(header: dict, items: list[dict], payments: list[dict]) -> dict:
         # 3) Insert payments (sale_id)
         for p in payments:
             conn.execute("""
-                INSERT INTO payments (sale_id, method, amount, reference)
-                VALUES (?, ?, ?, ?)
-            """, (sale_id, p["method"], float(p["amount"]), p.get("reference")))
+                INSERT INTO payments (sale_id, method, amount, reference, tendered, change)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (
+                sale_id, 
+                p.get("method"), 
+                float(p.get("amount") or 0), 
+                p.get("reference"), 
+                p.get("tendered"), 
+                p.get("change")
+            ))
 
         # 4) Obtener folio que generó el trigger
         folio_row = one(conn.execute("SELECT folio FROM sales WHERE id=?", (sale_id,)))

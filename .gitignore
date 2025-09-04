@@ -6,8 +6,11 @@
 .env
 .env.local
 .env.*.local
+.venv
 
 # También recomiendo agregar
 node_modules/
 .DS_Store
 *.log
+
+__pycache__

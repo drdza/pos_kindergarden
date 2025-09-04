@@ -23,8 +23,8 @@ def alta_venta(
         items.append({
             "sku": it.get("sku"),
             "description_snapshot": it.get("descripcion") or it["sku"],
-            "qty": float(it["qty"]),
             "unit_price": float(it["unit_price"]),
+            "qty": float(it["qty"]),            
             "discount": float(it.get("discount", 0.0)),
             "tax_rate": float(it.get("tax_rate", 0.0)),
         })

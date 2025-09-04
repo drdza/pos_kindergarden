@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Ventas{% endblock %}
+{% block content %}
+<style>
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .btn { border:1px solid #d1d5db; padding:8px 12px; border-radius:8px; background:#fff; cursor:pointer; color:#aaa;}
+  .btn.active { background:#111; color:#fff; }
+  table.sales { width:100%; border-collapse: collapse; background:#fff; }
+  table.sales th, table.sales td { padding:10px; border-bottom:1px solid #eee; text-align:left; }
+  table.sales th.right, table.sales td.right { text-align:right; }
+  .badge { font-size:12px; padding:3px 8px; border-radius:999px; border:1px solid; white-space:nowrap; }
+  .paid { color:#05603a; border-color:#86efac; background:#ecfdf5; }
+  .partial { color:#92400e; border-color:#fed7aa; background:#fffbeb; }
+  .unpaid { color:#991b1b; border-color:#fecaca; background:#fef2f2; }
+  .actions a { margin-right:8px; }
+  .muted { color:#6b7280; }
+</style>
+
+<h2>Ventas</h2>
+
+<div class="toolbar">
+  <a class="btn {{ 'active' if current_filter=='open' else '' }}" href="{{ url_for('list_sales', status='open') }}">Abiertas</a>    
+  <a class="btn {{ 'active' if current_filter=='paid' else '' }}" href="{{ url_for('list_sales', status='paid') }}">Pagadas</a>
+  <a class="btn {{ 'active' if current_filter=='all' else '' }}" href="{{ url_for('list_sales', status='all') }}">Todas</a>
+  <span class="muted">|</span>
+  <a class="btn" href="{{ url_for('new_sale') }}">Nueva venta</a>
+</div>
+
+<table class="sales">
+  <thead>
+    <tr>
+      <th>Folio</th>
+      <th>Fecha</th>
+      <th>Alumno</th>
+      <th>Vendedor</th>
+      <th class="right">Total</th>
+      <th class="right">Pagado</th>
+      <th class="right">Saldo</th>
+      <th>Estatus</th>
+      <th class="right">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in sales %}
+      {% set total = (s['total'] or 0) %}
+      {% set paid = (s['paid'] or 0) %}
+      {% set balance = total - paid %}
+      {% set sl = (s['payment_status'] or 'UNPAID')|lower %}
+      <tr>
+        <td>{{ s['folio'] }}</td>
+        <td>{{ s['created_at'] }}</td>
+        <td>{{ s['customer'] }}</td>
+        <td>{{ s['seller'] }}</td>
+        <td class="right">{{ '%.2f'|format(total) }}</td>
+        <td class="right">{{ '%.2f'|format(paid) }}</td>
+        <td class="right">{{ '%.2f'|format(balance) }}</td>
+        <td>
+          <span class="badge {{ 'paid' if sl in ['paid','pagado','completo'] else ('partial' if sl in ['partial','parcial'] else 'unpaid') }}">
+            {{ s['payment_status'] }}
+          </span>
+        </td>
+        <td class="right actions">
+          <a href="{{ url_for('ticket', sale_id=s['id']) }}">Ver</a>
+          <a href="{{ url_for('ticket', sale_id=s['id']) }}?print=1">Reimprimir</a>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="9" class="muted">No hay ventas para este filtro.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

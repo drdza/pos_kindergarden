@@ -1,303 +1,259 @@
-/* static/css/sales.css */
-table {
+/* =========================
+   Nueva Venta - UI Pro (override)
+   ========================= */
+
+/* Paleta base y tokens */
+:root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --ink: #111827;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #2563eb;
+    --accent-ink: #0b4ad9;
+    --ok: #059669;
+    --warn: #b45309;
+    --danger: #b91c1c;
+    --radius: 12px;
+    --shadow: 0 8px 20px rgba(17,24,39,.06);
+  }
+  
+  /* Cards más limpias y modernas (sin tocar base.css) */
+  .card {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 16px;
+  }
+  
+  /* Títulos de sección dentro de cards */
+  .card > h2, .card > h3 {
+    margin: 0 0 10px 0;
+    color: var(--ink);
+    letter-spacing: .2px;
+  }
+  
+  /* Filas y layout */
+  .row { gap: 12px; }
+  .row > * { min-width: 200px; }
+  
+  /* Formularios */
+  .form-group { margin-bottom: 14px; }
+  .form-label {
+    display: inline-block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  
+  /* Inputs y selects base */
+  .form-select, .form-control, input[type="number"], input[type="text"] {
     width: 100%;
-    border-collapse: collapse;    
-}
-
-th, td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-    
-}
-
-.right {
-    text-align: right;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-.edit {
-    background: #74abd7;
-    border: 1px solid #ddd;
-}
-
-table.fixed {
-    table-layout: fixed;
-    width: 100%;
-}
-
-td input {
-    width: 100%;
-    box-sizing: border-box;
-    font-family: system-ui;
-}
-
-input {    
-    border: 1px solid #aaa;    
-    border-radius: 4px;
-}
-
-input[readonly] {
-    background-color: #f5f5f5;    
-    color: #555;
-    cursor: not-allowed;
-}
-
-tbody tr:focus-within {
-    background: #f7fafc;
-}
-
-td button {
-    padding: 2px 6px;
-    border-radius: 6px;
-}
-
-#search-results {
-    max-height: 240px;
-    overflow: auto;
-}
-
-.enrollment-option {
-    font-family: 'Courier New', monospace;
-}
-
-.enrollment-id {
-    color: #666;
-    font-weight: bold;
-    background-color: #f5f5f5;
-    padding: 2px 4px;
-    border-radius: 3px;
-    border: 1px solid #ddd;
-}
-
-.student-name {
-    color: #333;
-}
-
-/* Mejoras de formulario */
-.form-group {
-    margin-bottom: 16px;
-}
-
-.form-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-.form-select, .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-/* Estilos para Select2 */
-.select2-results {
-    font-size: 12px;
-}
-
-.select2-container--default .select2-selection--single {
-    line-height: 25px;
-    height: 42px;
-    padding: 1px 12px;
+    padding: 10px 12px;
     border: 1px solid #ced4da;
-    border-radius: 6px;
-    font-size: 12px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 40px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 25px !important; 
-    color: #333;
-}
-
-.select2-container--default .select2-search--dropdown .select2-search__field {
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    padding: 6px;
-}
-
-.select2-results__option--highlighted[aria-selected] {    
-    background-color: #2563eb !important;
-}
-
-
-/* Contenedor de búsqueda */
-.search-container {
-  position: relative;
-  width: 100%;
-}
-
-.search-input {
-    width: 94%;
-    padding: 12px;
-    padding-right: 40px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    font-size: 12px;
-    height: 2px;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-/* Indicador de carga */
-.search-indicator {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  display: none;
-}
-
-.search-indicator.htmx-request {
-  display: block;
-  border: 2px solid #f3f3f3;
-  border-top: 2px solid #2563eb;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: translateY(-50%) rotate(0deg); }
-  100% { transform: translateY(-50%) rotate(360deg); }
-}
-
-/* Resultados de búsqueda */
-.search-results-card {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-top: 12px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 0;
-}
-
-.search-result-item {
-  padding: 12px 16px;
-  border-bottom: 1px solid #f3f4f6;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.search-result-item:hover {
-  background-color: #f8fafc;
-}
-
-.search-result-item:last-child {
-  border-bottom: none;
-}
-
-.search-result-sku {
-  font-weight: bold;
-  color: #2563eb;
-  font-family: 'Courier New', monospace;
-  font-size: 12px;
-}
-
-.search-result-desc {
-  color: #374151;
-  margin-top: 4px;
-}
-
-.search-result-price {
-  color: #059669;
-  font-weight: bold;
-  margin-top: 4px;
-}
-
-/* Estados vacíos */
-.search-empty {
-  padding: 20px;
-  text-align: center;
-  color: #6b7280;
-}
-
-.search-initial {
-  padding: 20px;
-  text-align: center;
-  color: #9ca3af;
-}
-
-/* Campos hidden - mantener ocultos pero funcionales */
-input[type="hidden"] {
-    display: none;
-}
-
-/* Mejoras para selects con data attributes */
-.select2-container--default .select2-results__option[data-name]::after {
-    content: attr(data-name);
-    display: block;
-    font-size: 12px;
-    color: #666;
-    margin-top: 2px;
-}
-
-/* Estilos para la búsqueda de productos */
-.search-container {
-    position: relative;
-    width: 100%;
-}
-
-.search-input {
-    width: 100%;
-    padding: 12px 16px;
-    padding-right: 40px;
-    border: 2px solid #e5e7eb;
     border-radius: 8px;
+    box-sizing: border-box;
     font-size: 14px;
-    transition: border-color 0.3s ease;
-}
+    transition: box-shadow .15s ease, border-color .15s ease;
+  }
 
-.search-input:focus {
+  .form-select:focus, .form-control:focus,
+  input[type="number"]:focus, input[type="text"]:focus {
     outline: none;
-    border-color: #2563eb;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
-.search-indicator {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+  }
+  
+  /* -------- Buscador de productos -------- */
+  .search-container { position: relative; width: 100%; }
+  
+  /* Corrige altura y ancho del input (antes estaba height: 2px y width: 94%) */
+  .search-input {
+    width: 100%;
+    height: 42px;
+    padding: 10px 40px 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .search-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(37,99,235,.12);
+  }
+  
+  /* Indicador de carga HTMX */
+  .search-indicator {
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
+    width: 18px; height: 18px;
     display: none;
-}
-
-.search-indicator.htmx-request {
+  }
+  .search-indicator.htmx-request {
     display: block;
     border: 2px solid #f3f3f3;
-    border-top: 2px solid #2563eb;
+    border-top: 2px solid var(--accent);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
-}
-
-.search-results-card {
-    max-height: 300px;
-    overflow-y: auto;
-    margin-top: 12px;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  
+  /* Tarjeta de resultados */
+  .search-results-card {
+    max-height: 310px;
+    overflow: auto;
+    margin-top: 10px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    background: #fff;
+    padding: 0;
+  }
+  .search-result-item {
+    padding: 12px 14px;
+    border-bottom: 1px solid #f3f4f6;
+    cursor: pointer;
+    transition: background-color .15s ease;
+  }
+  .search-result-item:hover { background-color: #f8fafc; }
+  .search-result-item:last-child { border-bottom: 0; }
+  .search-result-sku { font-weight: 700; color: var(--accent); font-family: 'Courier New', monospace; font-size: 12px; }
+  .search-result-desc { color: #374151; margin-top: 4px; }
+  .search-result-price { color: var(--ok); font-weight: 700; margin-top: 4px; }
+  
+  /* -------- Tabla de detalle -------- */
+  #items-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden; /* recorta bordes de la tabla dentro de la card */
+  }
+  #items-table thead th {
+    text-align: left;
+    font-weight: 700;
+    font-size: 12px;
+    color: #475569;
+    padding: 10px 8px;
+    background: #f8fafc;
+    border-bottom: 1px solid #eef2f7;
+  }
+  #items-table td {
+    padding: 5px;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+  }
+  #items-table tbody tr:hover { background: #fafafa; }
+  #items-table .right { text-align: right; }
+  
+  /* Inputs dentro de la tabla */
+  #items-table td input {
+    background: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
-    padding: 0;
-}
+    /* height: 36px; */
+    padding: 5px 0px;
+    font-size: 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  #items-table td input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+  }
+  #items-table td input[readonly] {
+    background: #f8fafc;
+    color: #4b5563;
+    cursor: not-allowed;
+  }
+  
+  /* Botón eliminar renglón */
+  #items-table td button {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    transition: transform .05s ease, box-shadow .15s ease;
+  }
+  #items-table td button:hover { box-shadow: var(--shadow); }
+  #items-table td button:active { transform: scale(.98); }
+  
+  /* -------- Totales y Pago -------- */
+  .card h3 { font-size: 15px; margin-bottom: 8px; }
+  .card .row > div:first-child { color: #374151; }
+  
+  #t-subtotal, #t-tax, #t-total {
+    font-variant-numeric: tabular-nums;
+  }
+  #t-total {
+    font-weight: 800;
+    font-size: 18px;
+  }
+  
+  /* Pago: alinea inputs y select */
+  #payment-method { min-width: 160px; }
+  
+  /* -------- Botones de acción -------- */
+  .btn {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 600;
+    transition: transform .05s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:hover { background: var(--accent-ink); box-shadow: var(--shadow); }
+  .btn:active { transform: translateY(1px); }
+  .btn.secondary {
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid #d1d5db;
+  }
+  
+  /* -------- Select2 (match al resto) -------- */
+  .select2-container--default .select2-selection--single {
+    border: 1px solid #ced4da !important;
+    border-radius: 10px !important;
+    height: 42px !important;
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 28px !important;
+    color: #111827 !important;
+  }
+  .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px !important;
+  }
+  .select2-results__option{
+    font-size: 13px;
+  }
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--accent) !important;    
+  }
+ 
+  
+  /* Estados vacíos */
+  .search-empty, .search-initial {
+    padding: 18px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  
+  /* Accesibilidad y polish */
+  .enrollment-id {
+    color: #374151;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+  }
+  
+  /* Responsive fino */
+  @media (max-width: 600px) {
+    #items-table thead { display: none; }
+    #items-table tr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 0; }
+    #items-table td:last-child { grid-column: 1 / -1; justify-self: end; }
+  }
+  

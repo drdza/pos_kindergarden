@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS shifts (
 -- =========================================
 CREATE TABLE IF NOT EXISTS customers (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  enrollment TEXT NOT NULL UNIQUE,
+  enrollment INTEGER NOT NULL UNIQUE,
   first_name TEXT NOT NULL,
   second_name TEXT,
   address TEXT,
@@ -179,6 +179,8 @@ CREATE TABLE IF NOT EXISTS payments (
   sale_id INTEGER NOT NULL REFERENCES sales(id) ON DELETE CASCADE,
   method TEXT NOT NULL,
   amount REAL NOT NULL CHECK (amount >= 0),
+  tendered REAL NULL,
+  change REAL NULL,
   reference TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now','localtime'))
 );
@@ -252,9 +254,9 @@ CREATE TRIGGER IF NOT EXISTS trg_pay_ai AFTER INSERT ON payments
 BEGIN
   UPDATE sales
   SET payment_status = CASE
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) >= total THEN 'paid'
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) > 0    THEN 'partial'
-    ELSE 'unpaid'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) >= total THEN 'pagado'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) > 0    THEN 'parcial'
+    ELSE 'pendiente'
   END
   WHERE id = NEW.sale_id;
 END;
@@ -263,9 +265,9 @@ CREATE TRIGGER IF NOT EXISTS trg_pay_au AFTER UPDATE ON payments
 BEGIN
   UPDATE sales
   SET payment_status = CASE
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) >= total THEN 'paid'
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) > 0    THEN 'partial'
-    ELSE 'unpaid'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) >= total THEN 'pagado'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = NEW.sale_id) > 0    THEN 'parcial'
+    ELSE 'pendiente'
   END
   WHERE id = NEW.sale_id;
 END;
@@ -274,9 +276,9 @@ CREATE TRIGGER IF NOT EXISTS trg_pay_ad AFTER DELETE ON payments
 BEGIN
   UPDATE sales
   SET payment_status = CASE
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = OLD.sale_id) >= total THEN 'paid'
-    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = OLD.sale_id) > 0    THEN 'partial'
-    ELSE 'unpaid'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = OLD.sale_id) >= total THEN 'pagado'
+    WHEN (SELECT total_paid FROM v_sales_paid WHERE sale_id = OLD.sale_id) > 0    THEN 'parcial'
+    ELSE 'pendiente'
   END
   WHERE id = OLD.sale_id;
 END;
