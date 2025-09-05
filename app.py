@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, abort
 from pathlib import Path
 from config import DB_PATH
-from repos import products as products_repo
-from repos import sellers as sellers_repo
+from repos import products, sellers, customers
 from repos import base as db_base
 from repos.sales import get_sale
 from services.sales_service import alta_venta
@@ -18,24 +17,22 @@ def create_app():
     @app.get("/sales/new")
     def new_sale():
         # combos base (puedes paginarlos luego)
-        with db_base.get_conn() as conn:
-            customers = db_base.many(conn.execute(
-                "SELECT id, enrollment, first_name || ' ' || IFNULL(second_name,'') AS name FROM customers WHERE active=1 ORDER BY enrollment"
-            ))
-        sellers = sellers_repo.list_active()
-        return render_template("new_sale.html", customers=customers, sellers=sellers)
+        _products = products.list_active()
+        _customers = customers.list_active()
+        _sellers = sellers.list_active()
+        return render_template("new_sale.html", customers=_customers, sellers=_sellers, products=_products)
 
     # Buscar productos (HTMX autocomplete)
     @app.get("/api/products/search")
     def api_products_search():
-        q = request.args.get("q", "").strip()
-        print(q)
-        if not q:
+        txt = request.args.get("txt", "").strip()
+        print(txt)
+        if not txt:
             return render_template("partials/_product_list.html", products=[])
         with db_base.get_conn() as conn:
             rows = db_base.many(conn.execute(
                 "SELECT sku, description, price, tax_rate FROM products WHERE active=1 AND (sku LIKE ? OR description LIKE ?) ORDER BY description LIMIT 20",
-                (f"%{q}%", f"%{q}%")
+                (f"%{txt}%", f"%{txt}%")
             ))
         return render_template("partials/_product_list.html", products=rows)
 

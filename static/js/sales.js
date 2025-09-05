@@ -13,6 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
         theme: 'default'
     });
 
+    $('.select2-products').select2({
+        placeholder: "🔍 Seleccione un producto",
+        language: "es",
+        width: '100%',
+        minimumInputLength: 3,
+        allowClear: true,
+        theme: 'default'
+    });
+
     // Quita el setTimeout si todo funciona bien sin él:
     (function initSelects(){
         let customerSelect = document.getElementById('customer-select') || document.querySelector('[name="customer_id"]');
