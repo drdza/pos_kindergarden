@@ -64,7 +64,7 @@ def create_app():
             abort(400, "No hay renglones")
 
         # Método y montos de pago desde el form
-        method = (request.form.get("payment_method") or "").strip().upper()
+        method = (request.form.get("payment_method") or "").strip().upper() 
         amount = request.form.get("payment_amount")  # monto aplicado a la venta
         tendered = request.form.get("payment_tendered")  # lo que entregó el cliente (efectivo)        
         

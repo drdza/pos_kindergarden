@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
         tr.innerHTML = `
             <td><input value="${sku}" readonly oninput="sync()" /></td>
             <td><input value="${desc}" readonly oninput="sync()" /></td>            
-            <td><input class="right" type="number" value="${price}" readonly oninput="sync()"/></td>            
             <td><input class="right edit" type="number" value="${qty}" oninput="sync()"/></td>    
+            <td><input class="right" type="number" value="${price}" readonly oninput="sync()"/></td>                        
             <td><input class="right edit" type="number" value="${tax}" oninput="sync()"/></td>
             <td class="right" data-importe>0.00</td>
             <td><button type="button" onclick="this.closest('tr').remove(); sync();">✖</button></td>
@@ -176,6 +176,65 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         // si aún no expones sync global, al menos calcula una vez al cargar
         calcChangePreview();
+    }
+
+    
+        // === Vista previa con "Aplicar solo una parte" opcional ===
+    function calcChangeAndBalancePreview() {
+        const methodEl   = document.getElementById('payment-method');
+        const receivedEl = document.getElementById('payment-amount');
+        const applyChk   = document.getElementById('apply-partial');
+        const applyEl    = document.getElementById('payment-apply');
+    
+        if (!methodEl || !receivedEl) return;
+    
+        const method   = (methodEl.value || '').toUpperCase();
+        const received = parseFloat(receivedEl.value || '0') || 0;
+        const isCash   = method === 'CASH' || method === 'EFECTIVO' || method === 'cash';
+    
+        // Total desde UI
+        const totalText = document.getElementById('t-total')?.textContent || '0';
+        const total     = parseFloat(String(totalText).replace(/[^\d.-]/g, '')) || 0;
+    
+        // Si se activó "Aplicar solo una parte", usar ese monto como "applied"
+        let applied = 0;
+        if (applyChk?.checked && applyEl?.value) {
+        const applyVal = Math.max(0, parseFloat(applyEl.value) || 0);
+        applied = Math.min(applyVal, total);
+        // En efectivo, no puedes aplicar más de lo recibido
+        if (isCash) applied = Math.min(applied, received);
+        } else {
+        // Flujo normal de 1 campo
+        applied = isCash ? Math.min(received, total) : Math.min(received, total);
+        }
+    
+        const change  = isCash ? Math.max(0, received - applied) : 0;
+        const balance = Math.max(0, total - applied);
+    
+        // Pintar
+        const rowChange  = document.getElementById('row-change');
+        const rowBalance = document.getElementById('row-balance');
+        if (rowChange)  { document.getElementById('t-change').textContent  = change.toFixed(2);
+                        rowChange.style.display = (isCash && received > 0) ? '' : 'none'; }
+        if (rowBalance) { document.getElementById('t-balance').textContent = balance.toFixed(2);
+                        rowBalance.style.display = (balance > 0) ? '' : 'none'; }
+    
+        // Mostrar/ocultar input "Monto a aplicar"
+        if (applyChk && applyEl) applyEl.style.display = applyChk.checked ? '' : 'none';
+    }
+    
+    // Eventos
+    document.getElementById('payment-method')?.addEventListener('change', calcChangeAndBalancePreview);
+    document.getElementById('payment-amount')?.addEventListener('input',  calcChangeAndBalancePreview);
+    document.getElementById('apply-partial')?.addEventListener('change',  calcChangeAndBalancePreview);
+    document.getElementById('payment-apply')?.addEventListener('input',   calcChangeAndBalancePreview);
+    
+    // Integra con tu sync() si existe
+    if (typeof sync === 'function') {
+        const _sync = sync;
+        window.sync = function() { _sync(); calcChangeAndBalancePreview(); };
+    } else {
+        calcChangeAndBalancePreview();
     }
   
 

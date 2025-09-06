@@ -31,9 +31,9 @@
   <table class="receipt-table">
     <thead>
       <tr>
-        <th>Descripción</th>
-        <th class="right">P.Unit</th>
+        <th>Descripción</th>        
         <th class="right">Cant</th>
+        <th class="right">P.Unit</th>
         <th class="right">Importe</th>
       </tr>
     </thead>
@@ -46,9 +46,9 @@
             <div class="muted" style="font-size:11px;">IVA {{ (it.tax_rate|float * 100)|round(0) }}%</div>
           {% endif %}
         </td>
-        <td class="right">{{ '%.2f'|format(it.qty) }}</td>
-        <td class="right">{{ '%.2f'|format(it.unit_price) }}</td>
-        <td class="right">{{ '%.2f'|format(it.line_total) }}</td>
+        <td class="right">{{it.qty}}</td>
+        <td class="right">${{ "{:,.2f}".format(it.unit_price) }}</td>
+        <td class="right">${{ "{:,.2f}".format(it.line_total) }}</td>
       </tr>
       {% endfor %}
     </tbody>
@@ -57,17 +57,17 @@
   <div class="totals">
     <div class="row">
       <div>Subtotal</div>
-      <div class="right">{{ '%.2f'|format(sale.subtotal) }}</div>
+      <div class="right">${{ "{:,.2f}".format(sale.subtotal) }}</div>
     </div>
     <div class="row">
       <div>IVA</div>
-      <div class="right">{{ '%.2f'|format(sale.tax_total) }}</div>
+      <div class="right">${{ "{:,.2f}".format(sale.tax_total) }}</div>
     </div>
     <div class="row grand">
       <div>Total</div>
-      <div class="right">{{ '%.2f'|format(sale.total) }}</div>
+      <div class="right">${{ "{:,.2f}".format(sale.total) }}</div>
     </div>
-    <div class="row"><div>Pagos</div><div class="right">{{ '%.2f'|format(pays|sum(attribute='amount')) }}</div></div>
+    <div class="row"><div>Pagos</div><div class="right">${{ "{:,.2f}".format(pays|sum(attribute='amount')) }}</div></div>
 
     {# NUEVO: si hay pago en efectivo con tendered/change, muéstralo #}
     {% set cash = (pays | selectattr('method', 'in', ['CASH','EFECTIVO']) | list) %}

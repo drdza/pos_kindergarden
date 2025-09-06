@@ -1,6 +1,6 @@
   /* ===== Ticket look & feel ===== */
   .receipt {
-    max-width: 360px;            /* tamaño tipo recibo */
+    max-width: 270px;            /* tamaño tipo recibo */
     margin: 0 auto;
     background: #fff;
     border: 1px solid #e6e6e6;
@@ -9,6 +9,13 @@
     box-shadow: 0 8px 20px rgba(0,0,0,.06);
     font-size: 14px;
     line-height: 1.35;
+    font-family: monospace;
+  }
+  .row > *{
+    min-width: inherit !important;
+  }
+  .row{
+    flex-wrap: nowrap !important;
   }
   .brand {
     display: flex; align-items: center; justify-content: center;
@@ -21,42 +28,40 @@
 
   .meta {
     display: grid; grid-template-columns: 1fr auto; gap: 6px 10px;
-    padding: 10px 0 12px 0; border-top: 1px dashed #ddd; border-bottom: 1px dashed #ddd;
+    padding: 10px 0 12px 0; border-top: 1px dashed #000000; border-bottom: 1px dashed #000000;
     font-variant-numeric: tabular-nums;
   }
-  .meta b { color:#333 }
+  .meta b { color:#000000 }
   .folio-row { display:flex; align-items:center; justify-content:space-between; margin: 4px 0 2px }
   .folio { font-weight: 700; font-size: 18px; letter-spacing: .4px }
   .badge {
-    font-size: 12px; padding: 3px 8px; border-radius: 999px; line-height: 1;
+    font-size: 12px; padding: 3px 8px; border-radius: 999px; line-height: 1; font-weight: bold;
     border: 1px solid;
+    color:#000000; border-color:#000000; background:#ffffff; 
   }
-  .badge.paid     { color:#05603a; border-color:#86efac; background:#ecfdf5; }
-  .badge.partial  { color:#92400e; border-color:#fed7aa; background:#fffbeb; }
-  .badge.unpaid   { color:#991b1b; border-color:#fecaca; background:#fef2f2; }
 
   table.receipt-table { width:100%; border-collapse: collapse; margin: 10px 0 6px }
   table.receipt-table thead th {
     text-align:left; 
     font-weight:600; 
     font-size:12px; 
-    color:#444; 
+    color:#000000; 
     padding-bottom:6px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #000000;
   }
   table.receipt-table td { padding: 6px 0; vertical-align: top; }
   .right { text-align:right !important; }
-  .muted { color:#666; }
+  .muted { color:#000000; }
   .desc { max-width: 220px; }
 
   .totals { margin-top: 6px; }
   .totals .row { display:flex; justify-content: space-between; padding: 6px 0; }
-  .totals .row:not(:last-child) { border-bottom: 1px dashed #eee; }
-  .totals .grand { font-size: 16px; font-weight: 800; }
+  /* .totals .row:not(:last-child) { border-bottom: 1px dashed #000000; } */
+  .totals .grand { font-size: 14px; font-weight: 800; }
 
-  .footer { text-align:center; margin-top: 12px; font-size: 12px; color:#666 }
+  .footer { text-align:center; margin-top: 12px; font-size: 12px; color:#000000 }
   .actions { display:flex; gap:8px; justify-content:center; margin-top:12px }
-  .btn { appearance:none; border:1px solid #ddd; background:#111; color:#fff; border-radius:8px; padding:8px 12px; cursor:pointer; }
+  .btn { appearance:none; border:1px solid #000000; background:#111; color:#fff; border-radius:8px; padding:8px 12px; cursor:pointer; }
   .btn.secondary { background:#fff; color:#111 }
 
   /* ===== Print ===== */
